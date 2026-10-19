@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pantallas Coliseo 4 Años</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112..125,700..900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: consola de show. Mapa a escala real de píxeles a la izquierda, ficha operativa a la derecha, reglas al pie. */
+:root{
+  --bg:#0a1324; --panel:#101c34; --panel-2:#15244426; --raise:#17284a; --line:#243a63; --line-soft:#1b2d50;
+  --fg:#edf1fa; --muted:#8e9dbd; --faint:#5d6d91;
+  --brand:#f3cd5b; --brand-ink:#1a1606;
+  --g:#ff8061; --av:#45d3e8; --ok:#5fd68a; --warn:#ffb648;
+  --f-display:"Archivo","Arial Black",Impact,sans-serif;
+  --f-body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 56px}
+.wrap{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+/* Header */
+header.top{display:grid;grid-template-columns:1fr auto;gap:20px 32px;align-items:end}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand)}
+h1{font-family:var(--f-display);font-stretch:125%;font-weight:900;font-size:clamp(30px,5.2vw,58px);line-height:.95;letter-spacing:-.01em;margin:6px 0 8px;text-wrap:balance;text-transform:uppercase}
+.lede{color:var(--muted);max-width:62ch;margin:0}
+.meters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:min(440px,100%)}
+.mood{grid-column:1/-1;background:var(--panel);border:1px solid var(--line-soft);border-radius:14px;padding:16px 18px 14px;--mc:var(--brand)}
+.mood .top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.mood .lbl{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.mood .big{font-family:var(--f-display);font-stretch:118%;font-weight:900;font-size:clamp(46px,7vw,64px);line-height:.95;font-variant-numeric:tabular-nums;color:var(--mc);transition:color .4s}
+.mood .state{font-family:var(--f-display);font-stretch:112%;font-weight:800;font-size:19px;color:var(--mc);text-transform:uppercase;letter-spacing:.02em;text-align:right;transition:color .4s}
+.mood .count{font-family:var(--f-mono);font-size:11.5px;color:var(--faint);text-align:right}
+.mood .ride{position:relative;height:68px;margin-top:10px}
+.mood .rider{position:absolute;bottom:0;width:62px;transform:translateX(-50%);transition:left .7s cubic-bezier(.3,1.35,.5,1);filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
+.mood .rider svg{display:block;width:62px;height:62px}
+.mood .rider::after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--mc);border-bottom:0;transition:border-color .4s}
+.mood .rider.pop svg{animation:pop .5s ease}
+.mood[data-m="0"] .rider svg{animation:shake 1.4s ease-in-out infinite}
+.mood[data-m="1"] .rider svg{animation:hop .7s ease-in-out infinite}
+.mood[data-m="2"] .rider svg{animation:breathe 3s ease-in-out infinite}
+.mood[data-m="3"] .rider svg{animation:hop 1.1s ease-in-out infinite}
+@keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(7deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(0)}}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.mood .rider svg{animation:none!important}}
+.mood .track{position:relative;height:18px;border-radius:9px;background:var(--line-soft);margin-top:6px;overflow:hidden}
+.mood .track i{position:absolute;inset:0 auto 0 0;border-radius:9px;background:var(--mc);transition:width .7s cubic-bezier(.3,1.35,.5,1),background .4s;box-shadow:0 0 14px color-mix(in srgb,var(--mc) 55%,transparent)}
+.mood .track b{position:absolute;top:0;bottom:0;width:2px;background:var(--bg);z-index:1}
+.mood .scale{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:8px}
+.mood .scale span{font-family:var(--f-mono);font-size:10px;line-height:1.3;color:var(--faint);display:flex;flex-direction:column;gap:2px;min-width:0}
+.mood .scale span::before{content:"";height:3px;border-radius:2px;background:var(--seg);opacity:.45}
+.mood .scale span.on{color:var(--fg)}
+.mood .scale span.on::before{opacity:1}
+.meter{background:var(--panel);border:1px solid var(--line-soft);border-radius:10px;padding:10px 14px;min-width:150px}
+.meter .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:10px}
+.meter .num{font-family:var(--f-display);font-stretch:112%;font-weight:800;font-size:26px;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:2px}
+.meter .bar{height:4px;background:var(--line-soft);border-radius:2px;margin-top:6px;overflow:hidden}
+.meter .bar i{display:block;height:100%;border-radius:2px;transition:width .4s}
+.m-g .num{color:var(--g)} .m-g .bar i{background:var(--g)}
+.m-av .num{color:var(--av)} .m-av .bar i{background:var(--av)}
+:root{--mood-1:#ff5a5f;--mood-2:#ff9a3c;--mood-3:#f3cd5b;--mood-4:#5fd68a}
+
+/* Controls */
+.controls{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line-soft);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;padding:7px 14px;border-radius:999px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--muted);display:inline-flex;align-items:center;gap:7px}
+.seg button[aria-pressed="true"]{background:var(--raise);color:var(--fg);box-shadow:inset 0 0 0 1px var(--line)}
+.seg .dot{width:8px;height:8px;border-radius:50%}
+.ctl-label{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-right:8px}
+.ctl{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.sync{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.sync .led{width:7px;height:7px;border-radius:50%;background:var(--faint)}
+.sync.on .led{background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.sync.off .led{background:var(--warn)}
+
+/* Main grid */
+.main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line-soft);border-radius:14px}
+.map-card{padding:18px 18px 14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.map-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.map-head h2{font-family:var(--f-display);font-stretch:112%;font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;margin:0}
+.scale-note{font-family:var(--f-mono);font-size:11px;color:var(--faint)}
+svg.map{width:100%;height:auto;display:block}
+.scr{cursor:pointer}
+.scr .body{fill:#13213f;stroke:var(--line);stroke-width:1.2;transition:stroke .2s,opacity .2s}
+.scr .fill{transition:width .5s ease}
+.scr:hover .body{stroke:var(--muted)}
+.scr.sel .body{stroke:var(--brand);stroke-width:2.4}
+.scr.dim{opacity:.22}
+.scr.hl .body{stroke:var(--brand);stroke-width:2}
+.scr .nm{font-family:var(--f-display);font-stretch:112%;font-weight:800;font-size:14px;letter-spacing:.06em;fill:var(--fg);text-transform:uppercase}
+.scr .px{font-family:var(--f-mono);font-size:12.5px;fill:var(--muted)}
+.scr .pc{font-family:var(--f-mono);font-size:12.5px;font-weight:700}
+.scr .seam{stroke:var(--bg);stroke-width:2}
+.zone{font-family:var(--f-mono);font-size:12px;letter-spacing:.16em;fill:var(--faint)}
+.zone-line{stroke:var(--line-soft);stroke-dasharray:3 5}
+.pend .body{fill:none;stroke:var(--warn);stroke-dasharray:5 4;stroke-width:1.4}
+.pend .q{font-family:var(--f-display);font-weight:900;font-size:26px;fill:var(--warn);opacity:.7}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer;color:var(--muted);display:inline-flex;gap:6px;align-items:center}
+.chip b{font-family:var(--f-mono);font-weight:700;font-size:11px;color:var(--faint)}
+.chip[aria-pressed="true"]{border-color:var(--brand);color:var(--fg)}
+.chip.dim{opacity:.35}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+
+/* Panel */
+.panel{padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.p-eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.p-title{font-family:var(--f-display);font-stretch:118%;font-weight:900;font-size:30px;line-height:1;margin:4px 0 0;text-transform:uppercase;text-wrap:balance}
+.concept{font-family:var(--f-display);font-stretch:112%;font-weight:700;font-size:17px;color:var(--brand);margin:8px 0 0;text-wrap:balance}
+.specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:10px;overflow:hidden}
+.spec{background:var(--panel);padding:9px 11px;min-width:0}
+.spec .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.spec .v{font-family:var(--f-mono);font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.rules{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--muted)}
+.rules li{display:flex;gap:9px}
+.rules li::before{content:"";flex:0 0 6px;height:6px;margin-top:8px;border-radius:1px;background:var(--brand);transform:rotate(45deg)}
+.rules li.no::before{background:var(--g)}
+.progress-line{display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.progress-line .track{flex:1;height:6px;border-radius:3px;background:var(--line-soft);overflow:hidden}
+.progress-line .track i{display:block;height:100%;background:var(--brand);transition:width .4s}
+
+.group-h{display:flex;align-items:baseline;gap:10px;margin:6px 0 2px}
+.group-h .n{font-family:var(--f-mono);font-size:11px;color:var(--brand);font-weight:700}
+.group-h .t{font-family:var(--f-display);font-stretch:112%;font-weight:800;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
+.group-h .c{font-size:12.5px;color:var(--muted);font-style:italic}
+.tasks{display:flex;flex-direction:column;gap:6px}
+.task{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:11px 12px;border-radius:10px;background:var(--raise);border:1px solid transparent;transition:background .2s,border-color .2s}
+.task.mini{margin-left:22px;background:transparent;border:1px dashed var(--line)}
+.task.done{background:transparent;border-color:var(--line-soft)}
+.task.done .tt{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--faint)}
+.cb{appearance:none;-webkit-appearance:none;width:22px;height:22px;border-radius:6px;border:1.6px solid var(--muted);margin:1px 0 0;cursor:pointer;display:grid;place-items:center;background:transparent;transition:background .15s,border-color .15s}
+.cb::after{content:"";width:6px;height:11px;border:solid var(--brand-ink);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px);opacity:0}
+.cb:checked{background:var(--ok);border-color:var(--ok)}
+.cb:checked::after{opacity:1}
+.cb:disabled{cursor:not-allowed;opacity:.5}
+.tt{font-weight:600;font-size:14.5px;line-height:1.35}
+.td{font-size:13px;color:var(--muted);margin-top:3px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;align-items:center}
+.pill{font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:5px;text-transform:uppercase}
+.pill.g{background:color-mix(in srgb,var(--g) 18%,transparent);color:var(--g)}
+.pill.av{background:color-mix(in srgb,var(--av) 18%,transparent);color:var(--av)}
+.pill.mini{border:1px solid var(--line);color:var(--muted)}
+.scr-tag{font-family:var(--f-mono);font-size:10.5px;color:var(--faint)}
+.who{font-size:12px;color:var(--ok);margin-top:6px}
+.empty{color:var(--muted);font-size:14px;padding:14px;border:1px dashed var(--line);border-radius:10px}
+.detail-list{margin:8px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:4px 16px;font-size:12.5px;color:var(--muted)}
+.detail-list li{display:flex;gap:8px;min-width:0}
+.detail-list li span:first-child{font-family:var(--f-mono);color:var(--faint);flex:0 0 auto}
+details.more{margin-top:6px}
+details.more summary{cursor:pointer;font-size:12.5px;color:var(--brand);list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"+ ";font-family:var(--f-mono)}
+details.more[open] summary::before{content:"– "}
+.dep{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--warn) 9%,transparent);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);font-size:13px}
+.dep b{color:var(--warn);font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;flex:0 0 auto;margin-top:2px}
+.dep a{color:var(--fg)}
+
+.blocks-nav{display:flex;flex-wrap:wrap;gap:6px}
+.blocks-nav button{border:1px solid var(--line);background:transparent;border-radius:8px;padding:6px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0}
+.blocks-nav button .n{font-family:var(--f-mono);font-size:10.5px;color:var(--faint)}
+.blocks-nav button .t{font-size:12.5px;font-weight:600;color:var(--muted)}
+.blocks-nav button .pp{font-family:var(--f-mono);font-size:10px;color:var(--faint)}
+.blocks-nav button[aria-pressed="true"]{border-color:var(--brand);background:var(--raise)}
+.blocks-nav button[aria-pressed="true"] .t{color:var(--fg)}
+.blocks-nav button.complete .pp{color:var(--ok)}
+
+/* Rules footer */
+.foot{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px}
+.foot .card{padding:20px}
+.foot h3{font-family:var(--f-display);font-stretch:112%;font-weight:800;font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 12px}
+.rule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 22px}
+.rule{display:flex;gap:12px;align-items:flex-start;min-width:0}
+.rule .big{font-family:var(--f-display);font-stretch:118%;font-weight:900;font-size:22px;color:var(--brand);line-height:1;flex:0 0 56px;font-variant-numeric:tabular-nums}
+.rule p{margin:0;font-size:13.5px;color:var(--muted)}
+.rule p strong{color:var(--fg);font-weight:600}
+.pend-list{display:flex;flex-direction:column;gap:8px}
+.note{font-size:12px;color:var(--faint);margin:0}
+
+@media (max-width:920px){
+  .main,.foot{grid-template-columns:minmax(0,1fr)}
+  .map-card{position:static}
+  header.top{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:520px){
+  .specs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rule-grid{grid-template-columns:minmax(0,1fr)}
+  .task.mini{margin-left:10px}
+  .p-title{font-size:25px}
+  .meter{min-width:0;flex:1 1 90px;padding:8px 10px}
+  .meter .num{font-size:21px}
+}
+.modal{position:fixed;inset:0;background:rgba(5,10,20,.72);display:grid;place-items:center;padding:16px;z-index:50}
+.modal-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;width:min(380px,100%);display:flex;flex-direction:column;gap:12px}
+.modal-card input{font:inherit;color:var(--fg);background:var(--raise);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Coliseo MedPlus · Campaña 4 años · Brief pantallas</div>
+      <h1>Pantallas Coliseo<br>4 años</h1>
+      <p class="lede">Juguemos a terminar las pantallas :) Toca una pantalla del mapa para ver su ficha, o cambia a la vista por bloque para seguir el brief en orden. Marca cada pieza cuando quede lista.</p>
+    </div>
+    <div class="meters" id="meters"></div>
+  </header>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="ctl-label">Ver por</span>
+      <div class="seg" role="group" aria-label="Vista">
+        <button id="v-scr" data-view="screen" aria-pressed="true">Pantalla</button>
+        <button id="v-blk" data-view="block" aria-pressed="false">Bloque del brief</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="ctl-label">Equipo</span>
+      <div class="seg" role="group" aria-label="Equipo">
+        <button id="t-all" data-team="all" aria-pressed="true">Todo</button>
+        <button id="t-g" data-team="g" aria-pressed="false"><span class="dot" style="background:var(--g)"></span>Gráfico</button>
+        <button id="t-av" data-team="av" aria-pressed="false"><span class="dot" style="background:var(--av)"></span>Audiovisual</button>
+      </div>
+    </div>
+    <div class="ctl" style="gap:14px"><button class="chip" id="me" type="button">¿Quién eres?</button><div class="sync" id="sync"><span class="led"></span><span id="sync-t">Conectando los checks…</span></div></div>
+  </div>
+
+  <div class="main">
+    <section class="card map-card" aria-label="Mapa de pantallas">
+      <div class="map-head">
+        <h2>Mapa de pantallas</h2>
+        <span class="scale-note">Todas dibujadas a la misma escala de píxeles</span>
+      </div>
+      <svg class="map" id="map" viewBox="0 0 1000 560" role="img" aria-label="Mapa a escala de las pantallas del Coliseo MedPlus"></svg>
+      <div class="chips" id="chips"></div>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--brand)"></i>Avance</span>
+        <span><i class="sw" style="background:var(--g)"></i>Gráfico</span>
+        <span><i class="sw" style="background:var(--av)"></i>Audiovisual</span>
+      </div>
+    </section>
+
+    <section class="card panel" id="panel" aria-live="polite"></section>
+  </div>
+
+  <div class="foot">
+    <section class="card">
+      <h3>Reglas para todas las piezas</h3>
+      <div class="rule-grid">
+        <div class="rule"><div class="big">10 s</div><p><strong>Máximo por marca.</strong> El tiempo debe ser igual en los 3 ribbons y el jumbotrone para que todo sincronice.</p></div>
+        <div class="rule"><div class="big">2 días</div><p><strong>Antes del show</strong> se entrega todo el contenido para revisión técnica y aprobación.</p></div>
+        <div class="rule"><div class="big">RGB</div><p><strong>Espacio de color.</strong> Formatos de entrega: .MOV para video y .JPG para estático.</p></div>
+        <div class="rule"><div class="big">0 dB</div><p><strong>Sin audio.</strong> El mensaje principal se tiene que entender solo con lo visual.</p></div>
+        <div class="rule"><div class="big">≠</div><p><strong>Ribbons complementan.</strong> No repetir al mismo tiempo los mensajes del jumbotrone en los ribbons.</p></div>
+        <div class="rule"><div class="big">4K</div><p><strong>Capturadoras 4K</strong> para sincronizar jumbotrone y ribbons en vivo. Las alquila producción.</p></div>
+      </div>
+      <p class="note" style="margin-top:14px">Línea gráfica de la campaña 4 años. Concepto rector: "Bogotá se mueve cuando algo grande pasa". Priorizar imágenes reales del Coliseo, artistas y fans.</p>
+    </section>
+    <section class="card">
+      <h3>Pendientes por definir</h3>
+      <div class="pend-list">
+        <div class="dep"><b>Avisos</b><span>Definir cuántos segundos dura cada aviso de privacidad. Son textos largos y la regla general es de 10 s por marca.</span></div>
+        <div class="dep"><b>QR</b><span>Lo envía Marketing Coliseo, que también valida que lleve al álbum digital correcto.</span></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="modal" id="name-modal" hidden>
+  <form class="modal-card" id="name-form">
+    <div class="p-eyebrow">Antes de marcar</div>
+    <h2 class="p-title" style="font-size:24px">¿Quién eres?</h2>
+    <p class="td" style="margin:0">Tu nombre aparece junto a cada pieza que marques, para que el equipo sepa quién la terminó.</p>
+    <input id="name-input" type="text" maxlength="40" autocomplete="name" placeholder="Ej. Paula" required>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button type="button" class="chip" id="name-cancel">Cancelar</button>
+      <button type="submit" class="chip" style="border-color:var(--brand);color:var(--fg)">Guardar</button>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+/* ---------- Datos del brief ---------- */
+const SCREENS = {
+  jumbo:   {name:"Jumbotrone", w:1792,h:1408, zone:"Interior", min:"40 px", logo:"80 px",
+            rules:["Se recomienda no repetir información entre el jumbotrone y su ribbon.","Aquí corren las secuencias de todos los bloques internos."]},
+  rjumbo:  {name:"Ribbon Jumbotrone", short:"Ribbon Jumbo", w:1664,h:256, zone:"Interior", min:"40 px", logo:"80 px",
+            rules:["Misma duración que el jumbotrone para sincronizar.","No repetir lo que dice el jumbotrone al mismo tiempo."]},
+  rgradas: {name:"Ribbon Gradas", w:7200,h:256, zone:"Interior", min:"Frase corta", logo:"Sí",
+            rules:["Frases cortas e información contundente.","NO textos de dos líneas."]},
+  rplatea: {name:"Ribbon Platea", w:7200,h:128, zone:"Interior", min:"1 línea", logo:"No",
+            rules:["Frases cortas, una sola línea.","NO se pueden poner logos."], no:[1]},
+  fachada: {name:"Fachada", w:4992,h:1040, zone:"Exterior", min:"50 px", logo:"70 px",
+            rules:["Siempre el logo del Coliseo + \"Lo grande pasa aquí\", en una esquina o en cenefa. El logo ya existe.","Lleva recomendaciones de venue: lo que sí y lo que no.","NO lleva políticas de privacidad ni locales de gastronomía."], no:[2]},
+  videowall:{name:"Videowall", w:1920,h:1080, zone:"Exterior", min:"20 px", logo:"50 px",
+            rules:["Compuesto por 6 pantallas con divisiones: diseñar teniendo presentes los cortes.","NO lleva políticas de privacidad ni locales de gastronomía."], no:[1]},
+  tvs:     {name:"TVs Mezzanine", w:1920,h:1080, zone:"Exterior", min:"—", logo:"—",
+            rules:["Formato horizontal.","NO llevan políticas, recomendaciones ni gastronomía: la suite tiene menú exclusivo."], no:[1]}
+};
+const RIBBONS = ["rjumbo","rgradas","rplatea"];
+
+const BLOCKS = [
+  {id:"b1", n:"01", name:"Presentación del Coliseo", concept:"Lo grande pasa aquí."},
+  {id:"b2", n:"02", name:"Los grandes momentos", concept:"4 años. Miles de historias. Un lugar donde lo grande pasa."},
+  {id:"b3", n:"03", name:"Oferta gastronómica", concept:"Tu próximo antojo te espera."},
+  {id:"b4", n:"04", name:"Avisos de privacidad", concept:"Pieza informativa: diseño sobrio, alto contraste, prioridad en la lectura."},
+  {id:"b5", n:"05", name:"Contenido especial del evento", concept:"Muéstrale a Bogotá dónde está la felicidad hoy."},
+  {id:"b6", n:"06", name:"Fans del Coliseo MedPlus", concept:"Mira a tu alrededor. Estás viviendo algo grande."},
+  {id:"b7", n:"07", name:"Pre-show con Eliseo", concept:"Tu sueño se vive hoy."},
+  {id:"b8", n:"08", name:"Pantallas externas", concept:"Lo grande pasa aquí."}
+];
+
+const ARTISTS = [["Daddy Yankee","3 fechas · +60.000"],["The Killers","+17.000"],["Arctic Monkeys","+22.000"],["Roger Waters","+17.000"],["Luis Miguel","2 fechas · +28.000"],["Marc Anthony","+15.000"],["Travis Scott","+17.000"],["Linkin Park","+21.000"],["Feid","3 fechas · +60.000"],["Twenty One Pilots","+18.000"],["Funk Tribe","2 fechas · +19.000"],["David Guetta","+20.000"],["Korn","+20.000"],["Maroon 5","+10.000"],["Jamiroquai","+15.000"]];
+const SI = ["Trae tus entradas listas antes de ingresar","Ropa cómoda, abanicos y powerbanks","Bolsos pequeños y canguros de máx. 11×16 cm","Maquillaje (sin espejos, vidrios, tijeras y pinzas)","Morrales / bolsos de máx. 30×30×15 cm","Gel antibacterial (máx. 100 ml)","Bloqueador solar","Gafas de sol","Impermeable","Sombreros / gorras"];
+const NO = ["Salir y volver a ingresar después de verificada la boleta","Camisetas alusivas a equipos o selecciones de fútbol","Selfie stick, cámaras profesionales, semiprofesionales o drones","Armas, municiones, explosivos u objetos cortopunzantes","Cadenas, correas y decoración con puntas y taches","Pancartas, aerosoles, banderas o elementos de animación","Láser y linternas estroboscópicas","Cigarrillos, vapeadores, encendedores o fósforos","Tomar agua de las llaves de los baños (no es potable)","Propaganda política","Perfumes, termos, botellas o recipientes de vidrio","Comidas y bebidas","Sombrillas","Maletas de viaje"];
+
+const list = (arr, num) => `<ul class="detail-list">${arr.map((x,i)=>Array.isArray(x)?`<li><span>${String(i+1).padStart(2,"0")}</span><span><strong style="color:var(--fg);font-weight:600">${x[0]}</strong> · ${x[1]}</span></li>`:`<li><span>${num?String(i+1).padStart(2,"0"):"·"}</span><span>${x}</span></li>`).join("")}</ul>`;
+
+const RIB_ANIM = "Animar los ribbons y exportar el .MOV con la misma duración del jumbotrone.";
+const T = [
+  // 01
+  {id:"b1-video", b:"b1", team:"av", t:"Video principal de 30 s, sin audio", d:"Apertura con Eliseo → montaje de conciertos, artistas, público y luces → mensaje LO GRANDE PASA AQUÍ → cierre con logo e invitación a redes. Base: adaptar el video de aniversario.", s:["jumbo"]},
+  {id:"b1-eliseo", b:"b1", team:"g", t:"Detallar la ilustración de Eliseo", d:"Ya está ilustrado. Detallar las poses: entra al jumbotrone, saluda, toca la puerta, se mueve, y desde ahí todo cambia de color.", s:["jumbo"]},
+  {id:"b1-eliseo-av", b:"b1", team:"av", mini:true, t:"Animar a Eliseo", d:"Con las poses que entrega Gráfico.", s:["jumbo"]},
+  {id:"b1-rib", b:"b1", team:"g", t:"Ribbons: 3 frases", d:"\"Bienvenidos al Coliseo MedPlus\" · \"Lo grande pasa aquí\" · \"Síguenos en @coliseomedplus\"", s:RIBBONS},
+  {id:"b1-rib-av", b:"b1", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
+  {id:"b1-fachada", b:"b1", team:"av", t:"Adaptar el video a la fachada", d:"Con el logo del Coliseo + \"Lo grande pasa aquí\" fijos, en esquina o cenefa.", s:["fachada"]},
+  {id:"b1-vw", b:"b1", team:"av", t:"Adaptar el video al videowall", d:"Tener en cuenta los cortes entre las 6 pantallas.", s:["videowall"]},
+  {id:"b1-tvs", b:"b1", team:"av", t:"Adaptar el video a los TVs", d:"Formato horizontal 1920×1080.", s:["tvs"]},
+  // 02
+  {id:"b2-video", b:"b2", team:"av", t:"Video de los 15 artistas con cifras", d:"2 a 3 s por artista, con imágenes del concierto, nombre y cifra de asistentes. Cierre: \"4 años haciendo que Bogotá se mueva\" + logo (opcional). AV ya tiene el material.", s:["jumbo"], extra:()=>`<details class="more"><summary>Ver los 15 artistas y cifras</summary>${list(ARTISTS)}</details>`},
+  {id:"b2-plantilla", b:"b2", team:"av", t:"Plantilla de nombre + cifra", d:"Diseño y animación de cómo aparecen el artista y el número. Se repite 15 veces.", s:["jumbo"]},
+  {id:"b2-rib", b:"b2", team:"g", t:"Ribbons: 2 frases", d:"\"4 años haciendo que Bogotá se mueva\" · \"Síguenos en @coliseomedplus\"", s:RIBBONS},
+  {id:"b2-rib-av", b:"b2", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
+  // 03
+  {id:"b3-apertura", b:"b3", team:"g", t:"Estático de apertura: el mezzanine", d:"Presentación general del mezzanine y sus espacios gastronómicos.", s:["jumbo"]},
+  {id:"b3-l21", b:"b3", team:"g", t:"Local: Buden.Co", d:"Salchichas alemanas · Local 21 · Mezzanine. Foto real del producto + logo + categoría + número de local.", s:["jumbo"]},
+  {id:"b3-l14", b:"b3", team:"g", t:"Local: Toro Burger", d:"Hamburguesas · Local 14 · Mezzanine.", s:["jumbo"]},
+  {id:"b3-l22", b:"b3", team:"g", t:"Local: Dogger", d:"Perros calientes · Local 22 · Mezzanine.", s:["jumbo"]},
+  {id:"b3-l15", b:"b3", team:"g", t:"Local: Chicanos 1986", d:"Comida mexicana · Local 15 · Mezzanine.", s:["jumbo"]},
+  {id:"b3-l18", b:"b3", team:"g", t:"Local: Pinchos To You", d:"Carnes · Local 18 · Mezzanine.", s:["jumbo"]},
+  {id:"b3-l20", b:"b3", team:"g", t:"Local: Food & Drinks Live", d:"Comida colombiana · Local 20 · Mezzanine.", s:["jumbo"]},
+  {id:"b3-cierre", b:"b3", team:"g", t:"Estático de cierre", d:"Invitación a conocer la oferta del mezzanine.", s:["jumbo"]},
+  {id:"b3-video", b:"b3", team:"av", mini:true, t:"Unir los estáticos en video", d:"Secuencia del jumbotrone. Máximo 10 s por marca.", s:["jumbo"]},
+  {id:"b3-rib", b:"b3", team:"g", t:"Ribbons: 2 frases", d:"\"Tu próximo antojo te espera\" · \"Conoce nuestro mezzanine\"", s:RIBBONS},
+  {id:"b3-rib-av", b:"b3", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
+  // 04
+  {id:"b4-a", b:"b4", team:"g", t:"Aviso A: contenido digital", d:"Coliseo Live S.A.S. y TaquillaLive S.A.S. informan la autorización para tomar y publicar fotos, videos y entrevistas (Ley 1581 de 2012). Incluye la nota sobre el promotor del evento.", s:["jumbo"]},
+  {id:"b4-b", b:"b4", team:"g", t:"Aviso B: videovigilancia + contacto", d:"Grabación y monitoreo por seguridad (Ley 1581 de 2012). Al final, el contacto: coliseomedplus.com · taquillalive.com · oficialdatospersonales@coliseolive.com · oficialdatospersonales@taquillalive.com", s:["jumbo"]},
+  {id:"b4-video", b:"b4", team:"av", mini:true, t:"Video de los avisos con tiempo de lectura", d:"Los dos avisos separados, sin animaciones de fondo y con tiempo suficiente para leerlos.", s:["jumbo"]},
+  {id:"b4-rib", b:"b4", team:"g", t:"Ribbon: 1 frase", d:"\"Conoce nuestras políticas de tratamiento de datos en coliseomedplus.com\"", s:RIBBONS},
+  {id:"b4-rib-av", b:"b4", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
+  // 05
+  {id:"b5-pieza", b:"b5", team:"g", t:"Pieza especial HOY: Luis Alfonso", d:"La Fonda del Señorazo.", s:["jumbo"]},
+  {id:"b5-video", b:"b5", team:"av", mini:true, t:"Integrar la pieza y el QR en el video", d:"QR grande, con buen contraste y tiempo suficiente para escanearlo.", s:["jumbo"]},
+  {id:"b5-cierre", b:"b5", team:"av", t:"Cierre visual alineado con el ribbon", d:"\"Muéstrale a Bogotá dónde está la felicidad hoy.\"", s:["jumbo"]},
+  {id:"b5-rib", b:"b5", team:"g", t:"Ribbon: 1 frase", d:"\"Muéstrale a Bogotá dónde está la felicidad hoy.\"", s:RIBBONS},
+  {id:"b5-rib-av", b:"b5", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
+  // 06
+  {id:"b6-montaje", b:"b6", team:"av", t:"Montaje de fans", d:"Reacciones, cantos, abrazos, grupos de amigos, momentos espontáneos, artistas y escenarios. Energía, emoción y comunidad, con la estética de los 4 años.", s:["jumbo"]},
+  {id:"b6-rib", b:"b6", team:"g", t:"Ribbon: 1 frase", d:"\"Mira a tu alrededor. Estás viviendo algo grande.\"", s:RIBBONS},
+  {id:"b6-rib-av", b:"b6", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
+  // 07
+  {id:"b7-eliseo", b:"b7", team:"g", t:"Poses nuevas de Eliseo", d:"Eliseo aparece en pantalla y llama la atención de los asistentes.", s:["jumbo"]},
+  {id:"b7-eliseo-av", b:"b7", team:"av", mini:true, t:"Animar a Eliseo", d:"Con las poses nuevas que entrega Gráfico.", s:["jumbo"]},
+  {id:"b7-video", b:"b7", team:"av", t:"Video pre-show", d:"La luz, los gráficos y la animación suben la expectativa → mensaje \"Tu sueño se vive hoy…\" → cuenta regresiva 3, 2, 1 → cierre coordinado con producción para dar paso al show.", s:["jumbo"]},
+  {id:"b7-rib", b:"b7", team:"g", t:"Ribbon: 1 frase", d:"\"Tu sueño se vive hoy… y empieza en 3, 2, 1.\"", s:RIBBONS},
+  {id:"b7-rib-av", b:"b7", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
+  // 08
+  {id:"b8-reco", b:"b8", team:"g", t:"Placas de recomendaciones de venue", d:"Lo que sí (10) y lo que no (14). Textos ya entregados.", s:["fachada"], extra:()=>`<details class="more"><summary>Ver los textos</summary><div class="p-eyebrow" style="margin-top:8px;color:var(--ok)">Lo que sí</div>${list(SI,true)}<div class="p-eyebrow" style="margin-top:10px;color:var(--g)">Lo que no</div>${list(NO,true)}</details>`},
+  {id:"b8-reco-av", b:"b8", team:"av", mini:true, t:"Unir las placas en video", d:"Para la fachada.", s:["fachada"]},
+  {id:"b8-gif", b:"b8", team:"av", t:"Gif de gastronomía", d:"\"Disfruta nuestra oferta gastronómica y bares\". Reemplaza los locales en las pantallas externas. No va en los TVs.", s:["fachada","videowall"]}
+];
+
+const DEPS = {
+  b1:"El logo del Coliseo ya existe; no hay que diseñarlo.",
+  b2:"El material de los 15 conciertos ya lo tiene Audiovisual.",
+  b3:`Logos de los locales en <a href="https://workdrive.zohoexternal.com/folder/wk20z9f318bae10704d00b66adcbdb47eb483" target="_blank" rel="noopener">Workdrive</a>. Las fotos de producto ya se tienen. En las pantallas externas este bloque no va; allá va solo el gif.`,
+  b4:"Definir la duración de cada aviso (regla general de 10 s). No va en las pantallas externas.",
+  b5:"El QR lo envía Marketing Coliseo y valida que lleve al álbum digital correcto.",
+  b7:"El cierre se coordina con producción para dar paso al inicio del show.",
+  b8:"En las externas va solo el video del bloque 01. Ninguna lleva políticas de privacidad."
+};
+const DEP_LABEL = {b1:"Ya existe",b2:"Material",b3:"Recursos",b4:"Por definir",b5:"Depende de",b7:"Coordinar",b8:"Ojo"};
+
+/* ---------- Estado ---------- */
+const state = {view:"screen", team:"all", screen:"jumbo", block:"b1"};
+let checks = {};            // id -> {done, by, at}
+const canWrite = true;
+/* Pega aquí los datos de tu proyecto de Supabase (Project Settings → API) */
+const SUPABASE_URL = "https://penrhgetebavessqvnaq.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbnJoZ2V0ZWJhdmVzc3F2bmFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxODU4ODIsImV4cCI6MjEwNzc2MTg4Mn0.2AiJ3DIzOBpIXfWI7yHE5rzTzpqiDXMmAtxJaqB9D80";
+
+const byId = Object.fromEntries(T.map(x=>[x.id,x]));
+const teamOk = t => state.team==="all" || t.team===state.team;
+const isDone = id => !!(checks[id] && checks[id].done);
+const pct = arr => arr.length ? Math.round(arr.filter(t=>isDone(t.id)).length/arr.length*100) : 0;
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- Mapa ---------- */
+const K = 0.09; // misma escala de píxeles para todas
+const LAYOUT = {
+  jumbo:{x:420,y:62}, rjumbo:{x:425,y:212,side:true},
+  rgradas:{x:176,y:274}, rplatea:{x:176,y:322},
+  fachada:{x:40,y:426}, videowall:{x:528,y:426}, tvs:{x:752,y:426}
+};
+function screenTasks(sid){ return T.filter(t=>t.s.includes(sid)); }
+
+function drawMap(){
+  const svg = document.getElementById("map");
+  let h = `<text class="zone" x="20" y="28">INTERIOR · ARENA</text>
+           <line class="zone-line" x1="20" x2="980" y1="362" y2="362"/>
+           <text class="zone" x="20" y="390">EXTERIOR · FACHADA, LOBBY Y SUITES</text>`;
+  const order = ["jumbo","rjumbo","rgradas","rplatea","fachada","videowall","tvs"];
+  for(const sid of order){
+    const S = SCREENS[sid], L = LAYOUT[sid];
+    const w = S.w*K, hh = S.h*K;
+    const tk = screenTasks(sid), vis = tk.filter(teamOk);
+    const p = pct(vis);
+    const col = state.team==="g"?"var(--g)":state.team==="av"?"var(--av)":"var(--brand)";
+    let cls = "scr";
+    if(state.view==="screen" && state.screen===sid) cls+=" sel";
+    if(state.view==="block"){ const inB = tk.some(t=>t.b===state.block && teamOk(t)); cls += inB?" hl":" dim"; }
+    else if(!vis.length) cls+=" dim";
+    const thin = hh < 30;
+    const lx = L.side ? L.x+w+12 : L.x, ly = L.side ? L.y+hh/2+4 : L.y-8;
+    const pcIn = hh >= 40;
+    let seams = "";
+    if(sid==="videowall"){ for(const fx of [1/3,2/3]) seams+=`<line class="seam" x1="${L.x+w*fx}" x2="${L.x+w*fx}" y1="${L.y}" y2="${L.y+hh}"/>`; seams+=`<line class="seam" x1="${L.x}" x2="${L.x+w}" y1="${L.y+hh/2}" y2="${L.y+hh/2}"/>`; }
+    h += `<g class="${cls}" data-sid="${sid}" tabindex="0" role="button" aria-label="${S.name}, ${S.w} por ${S.h} píxeles, ${p}% listo">
+      <rect x="${L.x-6}" y="${L.y-(thin?22:6)}" width="${w+12}" height="${hh+(thin?34:12)}" fill="transparent"/>
+      <rect class="body" x="${L.x}" y="${L.y}" width="${w}" height="${hh}" rx="${Math.min(4,hh/3)}"/>
+      <rect class="fill" x="${L.x}" y="${L.y}" width="${w*p/100}" height="${hh}" rx="${Math.min(4,hh/3)}" fill="${col}" opacity=".85"/>
+      ${seams}
+      <text class="nm" x="${lx}" y="${ly}">${S.short||S.name}</text>
+      <text class="px f" x="${lx + (S.short||S.name).length*9.6 + 10}" y="${ly}">${S.w}×${S.h}</text>
+      ${vis.length?(pcIn?`<text class="pc" x="${L.x+w-8}" y="${L.y+hh-9}" text-anchor="end" fill="${p===100?"var(--ok)":"var(--fg)"}">${p}%</text>`
+        : L.side?`<text class="pc f2" x="${lx}" y="${ly}" fill="${p===100?"var(--ok)":col}">${p}%</text>`
+        : `<text class="pc" x="${L.x+w}" y="${ly}" text-anchor="end" fill="${p===100?"var(--ok)":col}">${p}%</text>`):""}
+    </g>`;
+  }
+  svg.innerHTML = h;
+  placeLabels();
+  svg.querySelectorAll(".scr").forEach(g=>{
+    const go = ()=>{ state.view="screen"; state.screen=g.dataset.sid; render(); if(innerWidth<920) document.getElementById("panel").scrollIntoView({behavior:"smooth",block:"start"}); };
+    g.addEventListener("click",go);
+    g.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();go();} });
+  });
+}
+
+function placeLabels(){
+  document.querySelectorAll("#map .scr").forEach(g=>{
+    const nm=g.querySelector(".nm"), px=g.querySelector(".px.f"), pc=g.querySelector(".pc.f2");
+    if(!nm||!px) return;
+    try{
+      const x = +nm.getAttribute("x") + nm.getComputedTextLength() + 10;
+      px.setAttribute("x", x);
+      if(pc) pc.setAttribute("x", x + px.getComputedTextLength() + 12);
+    }catch(e){}
+  });
+}
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(placeLabels);
+
+function drawChips(){
+  const el = document.getElementById("chips");
+  el.innerHTML = Object.entries(SCREENS).map(([sid,S])=>{
+    const vis = screenTasks(sid).filter(teamOk);
+    const dim = !S.pending && !vis.length;
+    return `<button class="chip${dim?" dim":""}" data-sid="${sid}" aria-pressed="${state.view==="screen"&&state.screen===sid}">${S.name}<b>${S.pending?"?":vis.length}</b></button>`;
+  }).join("");
+  el.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{state.view="screen";state.screen=b.dataset.sid;render();});
+}
+
+/* ---------- Panel ---------- */
+function ratio(w,h){ const r=w/h; return r>=10? `${r.toFixed(1)}:1` : (Math.abs(r-16/9)<.01?"16:9":`${r.toFixed(2)}:1`); }
+function taskHTML(t, showScreens){
+  const c = checks[t.id]||{};
+  const who = c.done ? `<div class="who">✓ Listo${c.by?` · ${esc(c.by)}`:""}${c.at?` · ${new Date(c.at).toLocaleDateString("es-CO",{day:"numeric",month:"short"})} ${new Date(c.at).toLocaleTimeString("es-CO",{hour:"numeric",minute:"2-digit"})}`:""}</div>` : "";
+  return `<div class="task${t.mini?" mini":""}${c.done?" done":""}">
+    <input type="checkbox" class="cb" id="cb-${t.id}" data-id="${t.id}" ${c.done?"checked":""} ${canWrite?"":"disabled"} aria-label="Marcar listo: ${esc(t.t)}">
+    <div><label for="cb-${t.id}" class="tt">${esc(t.t)}</label>
+      <div class="td">${esc(t.d)}</div>
+      ${t.extra?t.extra():""}
+      <div class="meta"><span class="pill ${t.team}">${t.team==="g"?"Gráfico":"Audiovisual"}</span>${t.mini?`<span class="pill mini">Mini tarea</span>`:""}
+      ${showScreens?`<span class="scr-tag">${t.s.map(s=>SCREENS[s].short||SCREENS[s].name).join(" · ")}</span>`:""}</div>
+      ${who}
+    </div></div>`;
+}
+function renderScreen(){
+  const sid = state.screen, S = SCREENS[sid];
+  const all = screenTasks(sid), vis = all.filter(teamOk);
+  let h = `<div><div class="p-eyebrow">${S.zone}${S.pending?" · pendiente":""}</div><h2 class="p-title">${S.name}</h2></div>`;
+  if(!S.pending){
+    h += `<div class="specs">
+      <div class="spec"><div class="k">Tamaño</div><div class="v">${S.w}×${S.h}</div></div>
+      <div class="spec"><div class="k">Proporción</div><div class="v">${ratio(S.w,S.h)}</div></div>
+      <div class="spec"><div class="k">Formato</div><div class="v">.MOV / .JPG</div></div>
+      <div class="spec"><div class="k">Texto mín.</div><div class="v">${S.min}</div></div>
+      <div class="spec"><div class="k">Logos</div><div class="v">${S.logo}</div></div>
+      <div class="spec"><div class="k">Piezas</div><div class="v">${vis.length}${state.team!=="all"?` de ${all.length}`:""}</div></div>
+    </div>`;
+  }
+  h += `<ul class="rules">${S.rules.map((r,i)=>`<li class="${(S.no||[]).includes(i)?"no":""}">${esc(r)}</li>`).join("")}</ul>`;
+  if(S.pending){ h += `<div class="dep"><b>Pendiente</b><span>Cuando estén las medidas y el contenido, se agregan aquí sus piezas.</span></div>`; return h; }
+  const p = pct(vis);
+  h += `<div class="progress-line"><span>${vis.filter(t=>isDone(t.id)).length}/${vis.length} listas</span><span class="track"><i style="width:${p}%"></i></span><span>${p}%</span></div>`;
+  if(!vis.length){ h += `<div class="empty">Este equipo no tiene piezas en esta pantalla.</div>`; return h; }
+  for(const B of BLOCKS){
+    const bt = vis.filter(t=>t.b===B.id); if(!bt.length) continue;
+    h += `<div><div class="group-h"><span class="n">${B.n}</span><span class="t">${B.name}</span></div><div class="group-h" style="margin:0 0 8px"><span class="c">${esc(B.concept)}</span></div><div class="tasks">${bt.map(t=>taskHTML(t,false)).join("")}</div></div>`;
+  }
+  return h;
+}
+function renderBlock(){
+  let h = `<div class="blocks-nav" role="group" aria-label="Bloques del brief">${BLOCKS.map(B=>{
+    const bt=T.filter(t=>t.b===B.id&&teamOk(t)); const done=bt.filter(t=>isDone(t.id)).length;
+    return `<button data-b="${B.id}" aria-pressed="${state.block===B.id}" class="${bt.length&&done===bt.length?"complete":""}"><span class="n">${B.n}</span><span class="t">${B.name}</span><span class="pp">${done}/${bt.length}</span></button>`;}).join("")}</div>`;
+  const B = BLOCKS.find(b=>b.id===state.block);
+  const vis = T.filter(t=>t.b===B.id && teamOk(t));
+  const screens = [...new Set(T.filter(t=>t.b===B.id).flatMap(t=>t.s))];
+  h += `<div><div class="p-eyebrow">Bloque ${B.n} · ${screens.map(s=>SCREENS[s].short||SCREENS[s].name).join(" · ")}</div><h2 class="p-title">${B.name}</h2><p class="concept">"${esc(B.concept).replace(/^Pieza informativa/,"Pieza informativa")}"</p></div>`;
+  if(DEPS[B.id]) h += `<div class="dep"><b>${DEP_LABEL[B.id]}</b><span>${DEPS[B.id]}</span></div>`;
+  const p = pct(vis);
+  h += `<div class="progress-line"><span>${vis.filter(t=>isDone(t.id)).length}/${vis.length} listas</span><span class="track"><i style="width:${p}%"></i></span><span>${p}%</span></div>`;
+  h += vis.length ? `<div class="tasks">${vis.map(t=>taskHTML(t,true)).join("")}</div>` : `<div class="empty">Este equipo no tiene piezas en este bloque.</div>`;
+  return h;
+}
+function renderPanel(){
+  const el = document.getElementById("panel");
+  el.innerHTML = state.view==="screen" ? renderScreen() : renderBlock();
+  el.querySelectorAll(".cb").forEach(cb=>cb.addEventListener("change",()=>toggle(cb.dataset.id, cb.checked)));
+  el.querySelectorAll(".blocks-nav button").forEach(b=>b.onclick=()=>{state.block=b.dataset.b;render();});
+}
+function renderMeters(){
+  const g=T.filter(t=>t.team==="g"), av=T.filter(t=>t.team==="av");
+  const m=(cls,label,arr)=>{const d=arr.filter(t=>isDone(t.id)).length,p=pct(arr);return `<div class="meter ${cls}"><div class="lbl"><span>${label}</span><span>${d}/${arr.length}</span></div><div class="num">${p}%</div><div class="bar"><i style="width:${p}%"></i></div></div>`;};
+  const MOODS=[{max:25,name:"Freddy enojado",c:"var(--mood-1)",r:"0–25%"},{max:50,name:"Freddy afanado",c:"var(--mood-2)",r:"26–50%"},{max:75,name:"Freddy en reposo",c:"var(--mood-3)",r:"51–75%"},{max:100,name:"Freddy feliz",c:"var(--mood-4)",r:"76–100%"}];
+  const p=pct(T), d=T.filter(t=>isDone(t.id)).length, mi=MOODS.findIndex(x=>p<=x.max), M=MOODS[mi];
+  const box=document.getElementById("meters");
+  let el=document.getElementById("mood");
+  if(!el){
+    box.innerHTML=`<div class="mood" id="mood" role="status"><div class="top"><div><div class="lbl">Mood de Freddy</div><div class="big" id="mood-p"></div></div><div><div class="state" id="mood-s"></div><div class="count" id="mood-c"></div></div></div><div class="ride"><div class="rider" id="mood-r"></div></div><div class="track"><i id="mood-t"></i><b style="left:25%"></b><b style="left:50%"></b><b style="left:75%"></b></div><div class="scale" id="mood-sc">${MOODS.map(x=>`<span style="--seg:${x.c}">${x.name.replace("Freddy ","")}<br>${x.r}</span>`).join("")}</div></div><div id="team-m" style="display:contents"></div>`;
+    el=document.getElementById("mood");
+  }
+  el.style.setProperty("--mc",M.c);
+  el.setAttribute("aria-label",`Mood de Freddy: ${M.name}, ${p}% listo`);
+  document.getElementById("mood-p").textContent=p+"%";
+  document.getElementById("mood-s").textContent=M.name;
+  document.getElementById("mood-c").textContent=`${d}/${T.length} piezas listas`;
+  document.getElementById("mood-t").style.width=p+"%";
+  const r=document.getElementById("mood-r");
+  r.style.left=`clamp(31px, ${p}%, calc(100% - 31px))`;
+  if(el.dataset.m!==String(mi)){
+    el.dataset.m=String(mi); r.innerHTML=freddyFace(mi);
+    r.classList.remove("pop"); void r.offsetWidth; r.classList.add("pop");
+  }
+  [...document.getElementById("mood-sc").children].forEach((s,i)=>s.classList.toggle("on",i===mi));
+  document.getElementById("team-m").innerHTML=m("m-g","Gráfico",g)+m("m-av","Audiovisual",av);
+}
+function freddyFace(i){
+  const ink="#1b1408", skin=["var(--mood-1)","var(--mood-2)","var(--mood-3)","var(--mood-4)"][i];
+  const head=`<circle cx="26" cy="29" r="19" fill="${skin}" stroke="#0a1324" stroke-width="2.5"/><path d="M12 22 Q14 9 26 9 Q38 9 40 22 Q34 15 26 16 Q18 15 12 22Z" fill="#2a1d10"/>`;
+  const faces=[
+    // enojado
+    `<path d="M14 6 q-3 -4 1 -6 M38 6 q3 -4 -1 -6" stroke="#ff8a8a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+     <path d="M15 24 L23 27 M37 24 L29 27" stroke="${ink}" stroke-width="2.8" stroke-linecap="round"/>
+     <circle cx="20" cy="30" r="2.3" fill="${ink}"/><circle cx="32" cy="30" r="2.3" fill="${ink}"/>
+     <path d="M19 40 Q26 34 33 40" stroke="${ink}" stroke-width="2.8" fill="none" stroke-linecap="round"/>`,
+    // afanado
+    `<path d="M16 23 Q20 20 24 23 M28 23 Q32 20 36 23" stroke="${ink}" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+     <circle cx="20" cy="29" r="4" fill="#fff"/><circle cx="32" cy="29" r="4" fill="#fff"/>
+     <circle cx="20.6" cy="29.6" r="2" fill="${ink}"/><circle cx="32.6" cy="29.6" r="2" fill="${ink}"/>
+     <ellipse cx="26" cy="39" rx="3.4" ry="4" fill="${ink}"/>
+     <path d="M43 18 q4 6 0 9 q-4 -3 0 -9Z" fill="#9ee3ff" stroke="#0a1324" stroke-width="1"/>`,
+    // en reposo
+    `<path d="M16 29 Q20 32 24 29 M28 29 Q32 32 36 29" stroke="${ink}" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+     <path d="M21 38 Q26 41 31 38" stroke="${ink}" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+     <text x="40" y="12" font-family="Archivo,Arial Black,sans-serif" font-weight="900" font-size="11" fill="#cfe0ff">z</text>
+     <text x="46" y="5" font-family="Archivo,Arial Black,sans-serif" font-weight="900" font-size="8" fill="#cfe0ff">z</text>`,
+    // feliz
+    `<path d="M16 30 Q20 25 24 30 M28 30 Q32 25 36 30" stroke="${ink}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+     <path d="M17 35 Q26 47 35 35 Z" fill="${ink}"/><path d="M21 39.5 Q26 43 31 39.5 Q26 41.5 21 39.5Z" fill="#ff7a7a"/>
+     <circle cx="15" cy="35" r="2.6" fill="#ff9a9a" opacity=".55"/><circle cx="37" cy="35" r="2.6" fill="#ff9a9a" opacity=".55"/>
+     <path d="M45 8 l1.5 3.5 3.5 1.5 -3.5 1.5 -1.5 3.5 -1.5 -3.5 -3.5 -1.5 3.5 -1.5Z" fill="#fff6c2"/>`
+  ];
+  return `<svg viewBox="0 0 52 52" aria-hidden="true">${head}${faces[i]}</svg>`;
+}
+function render(){
+  document.querySelectorAll("[data-view]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.view===state.view));
+  document.querySelectorAll("[data-team]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.team===state.team));
+  renderMeters(); drawMap(); drawChips(); renderPanel();
+  try{ localStorage.setItem("pc4-ui", JSON.stringify({view:state.view,team:state.team,screen:state.screen,block:state.block})); }catch(e){}
+}
+
+/* ---------- Checks compartidos ---------- */
+function setSync(kind,text){ const s=document.getElementById("sync"); s.className="sync "+kind; document.getElementById("sync-t").textContent=text; }
+
+/* ---------- Nombre de quien marca ---------- */
+let myName = "";
+try{ myName = localStorage.getItem("pc4-name") || ""; }catch(e){}
+let pendingToggle = null;
+function showName(){ const b=document.getElementById("me"); b.textContent = myName ? "Eres: "+myName+" · cambiar" : "¿Quién eres?"; }
+function askName(after){
+  pendingToggle = after || null;
+  const m=document.getElementById("name-modal"), i=document.getElementById("name-input");
+  i.value = myName; m.hidden = false; setTimeout(()=>i.focus(),30);
+}
+document.getElementById("name-form").addEventListener("submit",e=>{
+  e.preventDefault();
+  const v=document.getElementById("name-input").value.trim();
+  if(!v) return;
+  myName=v; try{ localStorage.setItem("pc4-name",v); }catch(err){}
+  document.getElementById("name-modal").hidden=true; showName();
+  if(pendingToggle){ const f=pendingToggle; pendingToggle=null; f(); }
+});
+document.getElementById("name-cancel").onclick=()=>{ document.getElementById("name-modal").hidden=true; pendingToggle=null; render(); };
+document.getElementById("me").onclick=()=>askName();
+showName();
+
+/* ---------- Checks compartidos (Supabase) ---------- */
+let sb = null;
+const rowToCheck = r => ({done:!!r.done, by:r.by_name||"", at:r.at?Date.parse(r.at):null});
+async function toggle(id, done){
+  if(!myName){ askName(()=>toggle(id,done)); return; }
+  const prev = checks[id];
+  checks[id] = {done, by:myName, at:Date.now()};
+  render();
+  if(!sb) return;
+  const { error } = await sb.from("checks").upsert({ id, done, by_name: myName, at: new Date().toISOString() });
+  if(error){ checks[id] = prev; render(); setSync("off","No se pudo guardar. Revisa tu conexión e intenta de nuevo."); }
+}
+async function connect(){
+  if(!window.supabase || SUPABASE_URL.startsWith("PEGA") || SUPABASE_KEY.startsWith("PEGA")){
+    setSync("off","Falta conectar Supabase: los checks no se guardan todavía."); return;
+  }
+  try{
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const { data, error } = await sb.from("checks").select("*");
+    if(error) throw error;
+    const next={}; (data||[]).forEach(r=>{ if(byId[r.id]) next[r.id]=rowToCheck(r); });
+    checks=next; render();
+    sb.channel("checks-live")
+      .on("postgres_changes",{event:"*",schema:"public",table:"checks"},payload=>{
+        const r=payload.new; if(r && r.id && byId[r.id]){ checks[r.id]=rowToCheck(r); render(); }
+      })
+      .subscribe(status=>{
+        if(status==="SUBSCRIBED") setSync("on","En vivo: checks compartidos con el equipo");
+        else if(status==="CHANNEL_ERROR"||status==="TIMED_OUT"||status==="CLOSED") setSync("off","Se perdió la conexión en vivo. Recarga la página.");
+      });
+  }catch(e){ setSync("off","No se pudieron cargar los checks."); }
+}
+
+/* ---------- Init ---------- */
+try{ const s=JSON.parse(localStorage.getItem("pc4-ui")||"null"); if(s){ Object.assign(state, s); if(!SCREENS[state.screen]) state.screen="jumbo"; } }catch(e){}
+document.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>{state.view=b.dataset.view;render();});
+document.querySelectorAll("[data-team]").forEach(b=>b.onclick=()=>{state.team=b.dataset.team;render();});
+render();
+connect();
+</script>
+
+</body>
+</html>
