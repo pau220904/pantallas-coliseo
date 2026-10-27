@@ -326,6 +326,8 @@ details.more[open] summary::before{content:"– "}
 const SCREENS = {
   jumbo:   {name:"Jumbotrone", w:1792,h:1408, zone:"Interior", min:"40 px", logo:"80 px",
             rules:["Se recomienda no repetir información entre el jumbotrone y su ribbon.","Aquí corren las secuencias de todos los bloques internos."]},
+  jumbola: {name:"Jumbotron Luis Alfonso", short:"Jumbotron L. Alfonso", w:2304,h:1280, zone:"Interior · Concierto Luis Alfonso", min:"No se indica", logo:"No se indica",
+            rules:["Mismas piezas y tareas que el Jumbotrone, exportadas en esta dimensión.","Pantalla de 9 × 5 m (04 SCREEN · Main Screen W 2304 × H 1280)."]},
   rjumbo:  {name:"Ribbon Jumbotrone", short:"Ribbon Jumbo", w:1664,h:256, zone:"Interior", min:"40 px", logo:"80 px",
             rules:["Misma duración que el jumbotrone para sincronizar.","No repetir lo que dice el jumbotrone al mismo tiempo."]},
   rgradas: {name:"Ribbon Gradas", w:7200,h:256, zone:"Interior", min:"Frase corta", logo:"No se indica",
@@ -373,7 +375,7 @@ const AVISO_B = [
 ];
 
 const RIB_ANIM = "Animar los ribbons y exportar el .MOV con la misma duración del jumbotrone.";
-const T = [
+const T0 = [
   // 01
   {id:"b1-video", b:"b1", team:"av", t:"Video principal de 30 s, sin audio", d:"Secuencia del jumbotrón. Base: video de aniversario del Coliseo.", s:["jumbo"],
    txt:[{h:"Secuencia del jumbotrón"},{ol:["Apertura impactante con Eliseo como recurso de animación de marca (eliseo entrando al jumbotrone y que desde ese momento todo cambia de color). (Saludando, tocando la puerta, moviéndose)","Montaje dinámico de conciertos, artistas, público, luces y momentos icónicos del Coliseo.","Aparición del mensaje principal: LO GRANDE PASA AQUÍ.","Cierre con el logo del Coliseo MedPlus y la invitación a seguir las redes sociales."]},"Material de referencia: evaluar la adaptación del video de aniversario del Coliseo para crear una versión audiovisual sin audio, ajustada a las pantallas externas. (Video de 30 segundos)"]},
@@ -450,6 +452,10 @@ const T = [
   {id:"b8-gif", b:"b8", team:"av", t:"Gif de gastronomía", d:"Reemplaza los locales en las pantallas externas. No va en los TVs.", s:["fachada","videowall"],
    txt:["Exceptuando que en la pantallas exterior no va:","-Políticas de privacidad (ninguna).","-No es necesario poner locales de gastronomía, solo con poner un gif disfruta nuestra oferta gastronómica y bares."]}
 ];
+// Jumbotron Luis Alfonso: copia de todas las piezas del Jumbotrone en otra dimensión
+const T = T0.flatMap(t => t.s.includes("jumbo")
+  ? [t, {...t, id:t.id+"-la", t:t.t+" · Jumbotron Luis Alfonso", s:["jumbola"]}]
+  : [t]);
 
 function txtHTML(arr, id){
   const body = arr.map(x=>{
@@ -491,7 +497,7 @@ const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 /* ---------- Mapa ---------- */
 const K = 0.09; // misma escala de píxeles para todas
 const LAYOUT = {
-  jumbo:{x:420,y:62}, rjumbo:{x:425,y:212,side:true},
+  jumbo:{x:420,y:62}, jumbola:{x:640,y:74}, rjumbo:{x:425,y:212,side:true},
   rgradas:{x:176,y:274}, rplatea:{x:176,y:322},
   fachada:{x:40,y:426}, videowall:{x:528,y:426}, tvs:{x:752,y:426}
 };
@@ -502,7 +508,7 @@ function drawMap(){
   let h = `<text class="zone" x="20" y="28">INTERIOR · ARENA</text>
            <line class="zone-line" x1="20" x2="980" y1="362" y2="362"/>
            <text class="zone" x="20" y="390">EXTERIOR · FACHADA, LOBBY Y SUITES</text>`;
-  const order = ["jumbo","rjumbo","rgradas","rplatea","fachada","videowall","tvs"];
+  const order = ["jumbo","jumbola","rjumbo","rgradas","rplatea","fachada","videowall","tvs"];
   for(const sid of order){
     const S = SCREENS[sid], L = LAYOUT[sid];
     const w = S.w*K, hh = S.h*K;
