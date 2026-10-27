@@ -284,7 +284,18 @@ details.more[open] summary::before{content:"– "}
         <div class="rule"><div class="big">≠</div><p><strong>Ribbons complementan.</strong> No repetir al mismo tiempo los mensajes del jumbotrone en los ribbons.</p></div>
         <div class="rule"><div class="big">4K</div><p><strong>Capturadoras 4K</strong> para sincronizar jumbotrone y ribbons en vivo. Hay que alquilarlas.</p></div>
       </div>
-      <p class="note" style="margin-top:14px">Línea gráfica de la campaña 4 años. Concepto rector: "Bogotá se mueve cuando algo grande pasa". Priorizar imágenes reales del Coliseo, artistas y fans.</p>
+      <div class="brief" style="margin-top:16px"><div class="brief-h"><span>Brief · Lineamientos generales · tal cual</span><button type="button" class="copy" data-copy="lin">Copiar</button></div><div class="brief-b" id="txt-lin">
+<p>Todas las piezas deben mantener coherencia con la línea gráfica de la campaña de los 4 años del Coliseo MedPlus, respetando la identidad visual de la marca y el concepto rector:</p>
+<p class="th">“Bogotá se mueve cuando algo grande pasa”.</p>
+<p>Buscamos construir una experiencia audiovisual dinámica, envolvente y memorable, que conecte con los asistentes desde su llegada hasta el inicio del espectáculo.</p>
+<p class="th">Lineamientos de ejecución:</p>
+<ul><li>Utilizar los colores, tipografías y recursos gráficos definidos para la campaña.</li><li>Priorizar imágenes y videos reales del Coliseo, los artistas y los fans.</li><li>Incorporar animaciones dinámicas, transiciones llamativas y recursos visuales que capten la atención.</li><li>Garantizar la legibilidad de los textos desde diferentes puntos del venue.</li><li>Mantener una jerarquía visual clara y evitar la saturación de información.</li><li>Las piezas deben funcionar sin audio, por lo que los mensajes principales deben entenderse visualmente.</li><li>Los ribbons deben complementar las piezas del jumbotrón, evitando repetir simultáneamente todos los mensajes.</li></ul>
+</div></div>
+<div class="brief" style="margin-top:10px"><div class="brief-h"><span>Pixelmap · Información general · tal cual</span><button type="button" class="copy" data-copy="pm">Copiar</button></div><div class="brief-b" id="txt-pm">
+<p>No superar una duración de máximo 10 segundos por cada marca y tener presente que el tiempo se mantenga igual entre los 3 Ribbons y el Jumbotron para la sincronización de la información en todas las pantallas, trabajar en espacio de color RGB.</p>
+<p>El contenido deberá ser entregado con mínimo dos (2) días de antelación al show para su respectiva revisión técnica y aprobación.</p>
+<p>Asimismo, la sincronización entre el Jumbotron y los Ribbons requiere el uso de capturadoras 4K, las cuales deberán ser alquiladas para la correcta ejecución del contenido en tiempo real durante el evento.</p>
+</div></div>
     </section>
     <section class="card">
       <h3>Pendientes por definir</h3>
@@ -317,7 +328,7 @@ const SCREENS = {
             rules:["Se recomienda no repetir información entre el jumbotrone y su ribbon.","Aquí corren las secuencias de todos los bloques internos."]},
   rjumbo:  {name:"Ribbon Jumbotrone", short:"Ribbon Jumbo", w:1664,h:256, zone:"Interior", min:"40 px", logo:"80 px",
             rules:["Misma duración que el jumbotrone para sincronizar.","No repetir lo que dice el jumbotrone al mismo tiempo."]},
-  rgradas: {name:"Ribbon Gradas", w:7200,h:256, zone:"Interior", min:"Frase corta", logo:"Sí",
+  rgradas: {name:"Ribbon Gradas", w:7200,h:256, zone:"Interior", min:"Frase corta", logo:"No se indica",
             rules:["Frases cortas e información contundente.","NO textos de dos líneas."]},
   rplatea: {name:"Ribbon Platea", w:7200,h:128, zone:"Interior", min:"1 línea", logo:"No",
             rules:["Frases cortas, una sola línea.","NO se pueden poner logos."], no:[1]},
@@ -739,6 +750,7 @@ async function connect(){
 try{ const s=JSON.parse(localStorage.getItem("pc4-ui")||"null"); if(s){ Object.assign(state, s); if(!SCREENS[state.screen]) state.screen="jumbo"; } }catch(e){}
 document.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>{state.view=b.dataset.view;render();});
 document.querySelectorAll("[data-team]").forEach(b=>b.onclick=()=>{state.team=b.dataset.team;render();});
+document.querySelectorAll(".foot .copy").forEach(b=>b.onclick=async()=>{const node=document.getElementById("txt-"+b.dataset.copy);try{await navigator.clipboard.writeText(node.innerText);b.textContent="Copiado";b.classList.add("ok");setTimeout(()=>{b.textContent="Copiar";b.classList.remove("ok");},1600);}catch(e){const r=document.createRange();r.selectNodeContents(node);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);b.textContent="Seleccionado: Ctrl/Cmd+C";}});
 render();
 connect();
 </script>
