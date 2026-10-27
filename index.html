@@ -53,6 +53,20 @@ h1{font-family:var(--f-display);font-stretch:125%;font-weight:900;font-size:clam
 @keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 @keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.brief{margin-top:9px;border:1px solid var(--line);border-radius:9px;background:var(--panel);overflow:hidden}
+.brief-h{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;background:color-mix(in srgb,var(--brand) 10%,transparent);border-bottom:1px solid var(--line)}
+.brief-h span{font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
+.copy{font-family:var(--f-mono);font-size:11px;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:6px;padding:3px 9px;cursor:pointer}
+.copy.ok{border-color:var(--ok);color:var(--ok)}
+.brief-b{padding:10px 12px;font-size:13.5px;line-height:1.55;color:var(--fg);user-select:text;-webkit-user-select:text}
+.brief-b p{margin:0 0 8px}
+.brief-b p:last-child{margin-bottom:0}
+.brief-b .th{font-weight:700;margin-top:10px}
+.brief-b .th:first-child{margin-top:0}
+.brief-b ol,.brief-b ul{margin:0 0 8px;padding-left:22px;display:flex;flex-direction:column;gap:3px}
+.brief-b .tbl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.brief-b .tbl span{background:var(--panel);padding:6px 8px;min-width:0;overflow-wrap:anywhere}
+.concept-l{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:6px;font-style:normal}
 @media (prefers-reduced-motion:reduce){.mood .rider svg{animation:none!important}}
 .mood .track{position:relative;height:18px;border-radius:9px;background:var(--line-soft);margin-top:6px;overflow:hidden}
 .mood .track i{position:absolute;inset:0 auto 0 0;border-radius:9px;background:var(--mc);transition:width .7s cubic-bezier(.3,1.35,.5,1),background .4s;box-shadow:0 0 14px color-mix(in srgb,var(--mc) 55%,transparent)}
@@ -317,77 +331,126 @@ const SCREENS = {
 const RIBBONS = ["rjumbo","rgradas","rplatea"];
 
 const BLOCKS = [
-  {id:"b1", n:"01", name:"Presentación del Coliseo", concept:"Lo grande pasa aquí."},
-  {id:"b2", n:"02", name:"Los grandes momentos", concept:"4 años. Miles de historias. Un lugar donde lo grande pasa."},
-  {id:"b3", n:"03", name:"Oferta gastronómica", concept:"Tu próximo antojo te espera."},
-  {id:"b4", n:"04", name:"Avisos de privacidad", concept:"Pieza informativa: diseño sobrio, alto contraste, prioridad en la lectura."},
-  {id:"b5", n:"05", name:"Contenido especial del evento", concept:"Muéstrale a Bogotá dónde está la felicidad hoy."},
-  {id:"b6", n:"06", name:"Fans del Coliseo MedPlus", concept:"Mira a tu alrededor. Estás viviendo algo grande."},
-  {id:"b7", n:"07", name:"Pre-show con Eliseo", concept:"Tu sueño se vive hoy."},
-  {id:"b8", n:"08", name:"Pantallas externas", concept:"Lo grande pasa aquí."}
+  {id:"b1", n:"01", name:"Presentación del Coliseo MedPlus", clabel:"Concepto", concept:"Lo grande pasa aquí."},
+  {id:"b2", n:"02", name:"Los grandes momentos del Coliseo MedPlus", clabel:"Concepto", concept:"4 años. Miles de historias. Un lugar donde lo grande pasa."},
+  {id:"b3", n:"03", name:"Oferta gastronómica", clabel:"Concepto", concept:"Tu próximo antojo te espera."},
+  {id:"b4", n:"04", name:"Avisos de privacidad", clabel:"Brief", concept:"Formato: pieza independiente, con diseño sobrio, alto contraste y prioridad en la lectura."},
+  {id:"b5", n:"05", name:"Contenido especial del evento", clabel:"Ribbon", concept:"Muéstrale a Bogotá dónde está la felicidad hoy."},
+  {id:"b6", n:"06", name:"Fans del Coliseo Medplus", clabel:"Ribbon", concept:"Mira a tu alrededor. Estás viviendo algo grande."},
+  {id:"b7", n:"07", name:"Pre-show con Eliseo", clabel:"Concepto", concept:"Tu sueño se vive hoy."},
+  {id:"b8", n:"08", name:"Pantalla externa y TVs", clabel:"Brief", concept:"Aplica el mismo video del Jumbotrone."}
 ];
 
-const ARTISTS = [["Daddy Yankee","3 fechas · +60.000"],["The Killers","+17.000"],["Arctic Monkeys","+22.000"],["Roger Waters","+17.000"],["Luis Miguel","2 fechas · +28.000"],["Marc Anthony","+15.000"],["Travis Scott","+17.000"],["Linkin Park","+21.000"],["Feid","3 fechas · +60.000"],["Twenty One Pilots","+18.000"],["Funk Tribe","2 fechas · +19.000"],["David Guetta","+20.000"],["Korn","+20.000"],["Maroon 5","+10.000"],["Jamiroquai","+15.000"]];
-const SI = ["Trae tus entradas listas antes de ingresar","Ropa cómoda, abanicos y powerbanks","Bolsos pequeños y canguros de máx. 11×16 cm","Maquillaje (sin espejos, vidrios, tijeras y pinzas)","Morrales / bolsos de máx. 30×30×15 cm","Gel antibacterial (máx. 100 ml)","Bloqueador solar","Gafas de sol","Impermeable","Sombreros / gorras"];
-const NO = ["Salir y volver a ingresar después de verificada la boleta","Camisetas alusivas a equipos o selecciones de fútbol","Selfie stick, cámaras profesionales, semiprofesionales o drones","Armas, municiones, explosivos u objetos cortopunzantes","Cadenas, correas y decoración con puntas y taches","Pancartas, aerosoles, banderas o elementos de animación","Láser y linternas estroboscópicas","Cigarrillos, vapeadores, encendedores o fósforos","Tomar agua de las llaves de los baños (no es potable)","Propaganda política","Perfumes, termos, botellas o recipientes de vidrio","Comidas y bebidas","Sombrillas","Maletas de viaje"];
+/* Textos copiados tal cual del brief y de la imagen de recomendaciones */
+const ARTISTS = ["Daddy Yankee — 3 fechas | +60.000 asistentes.","The Killers — +17.000 asistentes.","Arctic Monkeys — +22.000 asistentes.","Roger Waters — +17.000 asistentes.","Luis Miguel — 2 fechas | +28.000 asistentes.","Marc Anthony — +15.000 asistentes.","Travis Scott — +17.000 asistentes.","Linkin Park — +21.000 asistentes.","Feid — 3 fechas | +60.000 asistentes.","Twenty One Pilots — +18.000 asistentes.","Funk Tribe — 2 fechas | +19.000 asistentes.","David Guetta — +20.000 asistentes.","Korn — +20.000 asistentes.","Maroon 5 — +10.000 asistentes.","Jamiroquai — +15.000 asistentes."];
+const SI = ["Trae tus entradas listas antes de ingresar.","Bolsos pequeños y canguros que no excedan 11x16 CM.","Morrales / bolsos máximo de 30x30x15 CM.","Bloqueador solar.","Impermeable.","Ropa cómoda, abanicos y powerbanks.","Maquillaje (sin espejos, vidrios, tijeras y pinzas).","Gel antibacterial (máximo 100 ML)","Gafas de sol.","Sombreros / gorras."];
+const NO = ["Después de verificada la boleta no es posible salir y volver a ingresar.","Selfie stick, cámaras profesionales, semiprofesionales o drones.","El ingreso de cadenas, correas y decoración con puntas y taches.","Láser y linternas estroboscópicas.","Tomar agua de las llaves de los baños, ¡No es potable!.","Perfumes, termos, botellas o recipientes de vidrio.","Sombrillas.","Camisetas alusivas a equipos y/o selecciones de fútbol.","Armas, municiones, explosivos y/o objetos cortopunzantes.","El ingreso de pancartas, aerosoles, banderas y/o elementos de animación.","Cigarrillos, vapeadores, encendedores o fósforos.","El ingreso de propaganda política.","Comidas y bebidas.","Maletas de viaje."];
 
-const list = (arr, num) => `<ul class="detail-list">${arr.map((x,i)=>Array.isArray(x)?`<li><span>${String(i+1).padStart(2,"0")}</span><span><strong style="color:var(--fg);font-weight:600">${x[0]}</strong> · ${x[1]}</span></li>`:`<li><span>${num?String(i+1).padStart(2,"0"):"·"}</span><span>${x}</span></li>`).join("")}</ul>`;
+const AVISO_A = [
+  {h:"A. Aviso de privacidad – Contenido digital"},
+  "Coliseo Live S.A.S. (NIT. 901.306.573-1) y TaquillaLive S.A.S. (NIT. 901.303.128-3), como responsables independientes, informan que, al ingresar y permanecer en sus instalaciones, cada asistente autoriza el uso de sus datos personales según la Ley 1581 de 2012 y sus Políticas de Tratamiento. Esto incluye la toma, almacenamiento y publicación de fotos, videos y entrevistas con fines publicitarios en sus redes sociales y sitios web.",
+  "El promotor del evento también puede registrar imágenes, siendo responsable de su propio tratamiento."
+];
+const AVISO_B = [
+  {h:"B. Aviso de privacidad – Zona de videovigilancia"},
+  "Coliseo Live S.A.S. (NIT. 901.306.573-1) y TaquillaLive S.A.S. (NIT. 901.303.128-3), como responsables independientes, informan que al ingresar y permanecer en sus instalaciones implica la autorización para el tratamiento de datos personales conforme a la Ley 1581 de 2012 y sus Políticas de Tratamiento de Datos. Las imágenes serán grabadas, monitoreadas y almacenadas temporalmente para garantizar la seguridad de visitantes y bienes.",
+  {h:"Contacto"},
+  "Los titulares pueden conocer, actualizar, rectificar sus datos y consultar las políticas en:",
+  {ul:["www.coliseomedplus.com","www.taquillalive.com"]},
+  "Para peticiones, consultas o reclamos:",
+  {ul:["oficialdatospersonales@coliseolive.com","oficialdatospersonales@taquillalive.com"]}
+];
 
 const RIB_ANIM = "Animar los ribbons y exportar el .MOV con la misma duración del jumbotrone.";
 const T = [
   // 01
-  {id:"b1-video", b:"b1", team:"av", t:"Video principal de 30 s, sin audio", d:"Apertura con Eliseo → montaje de conciertos, artistas, público y luces → mensaje LO GRANDE PASA AQUÍ → cierre con logo e invitación a redes. Base: adaptar el video de aniversario.", s:["jumbo"]},
-  {id:"b1-eliseo", b:"b1", team:"g", t:"Detallar la ilustración de Eliseo", d:"Ya está ilustrado. Detallar las poses: entra al jumbotrone, saluda, toca la puerta, se mueve, y desde ahí todo cambia de color.", s:["jumbo"]},
+  {id:"b1-video", b:"b1", team:"av", t:"Video principal de 30 s, sin audio", d:"Secuencia del jumbotrón. Base: video de aniversario del Coliseo.", s:["jumbo"],
+   txt:[{h:"Secuencia del jumbotrón"},{ol:["Apertura impactante con Eliseo como recurso de animación de marca (eliseo entrando al jumbotrone y que desde ese momento todo cambia de color). (Saludando, tocando la puerta, moviéndose)","Montaje dinámico de conciertos, artistas, público, luces y momentos icónicos del Coliseo.","Aparición del mensaje principal: LO GRANDE PASA AQUÍ.","Cierre con el logo del Coliseo MedPlus y la invitación a seguir las redes sociales."]},"Material de referencia: evaluar la adaptación del video de aniversario del Coliseo para crear una versión audiovisual sin audio, ajustada a las pantallas externas. (Video de 30 segundos)"]},
+  {id:"b1-eliseo", b:"b1", team:"g", t:"Detallar la ilustración de Eliseo", d:"Eliseo ya está ilustrado. Detallar las poses para la apertura.", s:["jumbo"],
+   txt:["Apertura impactante con Eliseo como recurso de animación de marca (eliseo entrando al jumbotrone y que desde ese momento todo cambia de color). (Saludando, tocando la puerta, moviéndose)"]},
   {id:"b1-eliseo-av", b:"b1", team:"av", mini:true, t:"Animar a Eliseo", d:"Con las poses que entrega Gráfico.", s:["jumbo"]},
-  {id:"b1-rib", b:"b1", team:"g", t:"Ribbons: 3 frases", d:"\"Bienvenidos al Coliseo MedPlus\" · \"Lo grande pasa aquí\" · \"Síguenos en @coliseomedplus\"", s:RIBBONS},
+  {id:"b1-rib", b:"b1", team:"g", t:"Ribbons: 3 frases", d:"También se usan como cenefa en la fachada.", s:RIBBONS,
+   txt:[{h:"Ribbons"},{ul:["Bienvenidos al Coliseo MedPlus.","Lo grande pasa aquí.","Síguenos en @coliseomedplus."]}]},
   {id:"b1-rib-av", b:"b1", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
-  {id:"b1-fachada", b:"b1", team:"av", t:"Adaptar el video a la fachada", d:"Con el logo del Coliseo + \"Lo grande pasa aquí\" fijos, en esquina o cenefa.", s:["fachada"]},
-  {id:"b1-vw", b:"b1", team:"av", t:"Adaptar el video al videowall", d:"Tener en cuenta los cortes entre las 6 pantallas.", s:["videowall"]},
-  {id:"b1-tvs", b:"b1", team:"av", t:"Adaptar el video a los TVs", d:"Formato horizontal 1920×1080.", s:["tvs"]},
+  {id:"b1-fachada", b:"b1", team:"av", t:"Adaptar el video a la fachada", d:"El logo ya existe.", s:["fachada"],
+   txt:["Importante en la fachada tener siempre el logo de Coliseo y lo grande pasa aquí, ya sea una esquina o una cenefa."]},
+  {id:"b1-vw", b:"b1", team:"av", t:"Adaptar el video al videowall", d:"Tener presentes los cortes entre las pantallas.", s:["videowall"]},
+  {id:"b1-tvs", b:"b1", team:"av", t:"Adaptar el video a los TVs", d:"Formato horizontal. No van políticas, ni recomendaciones, ni gastronómica ya que suite tiene un menú exclusivo.", s:["tvs"]},
   // 02
-  {id:"b2-video", b:"b2", team:"av", t:"Video de los 15 artistas con cifras", d:"2 a 3 s por artista, con imágenes del concierto, nombre y cifra de asistentes. Cierre: \"4 años haciendo que Bogotá se mueva\" + logo (opcional). AV ya tiene el material.", s:["jumbo"], extra:()=>`<details class="more"><summary>Ver los 15 artistas y cifras</summary>${list(ARTISTS)}</details>`},
-  {id:"b2-plantilla", b:"b2", team:"av", t:"Plantilla de nombre + cifra", d:"Diseño y animación de cómo aparecen el artista y el número. Se repite 15 veces.", s:["jumbo"]},
-  {id:"b2-rib", b:"b2", team:"g", t:"Ribbons: 2 frases", d:"\"4 años haciendo que Bogotá se mueva\" · \"Síguenos en @coliseomedplus\"", s:RIBBONS},
+  {id:"b2-video", b:"b2", team:"av", t:"Video de los 15 artistas con cifras", d:"AV ya tiene el material de los conciertos.", s:["jumbo"],
+   txt:[{h:"Secuencia del jumbotrón"},"Desarrollar una pieza audiovisual dinámica que combine imágenes de los conciertos, nombres de los artistas y cifras de asistencia.",{h:"Artistas y cifras de referencia: (2 - 3 SEGUNDOS CADA ARTISTA)"},{ol:ARTISTS},{h:"Cierre de la pieza"},{ul:["4 años haciendo que Bogotá se mueva.","Logo del Coliseo MedPlus (opcional)."]}]},
+  {id:"b2-plantilla", b:"b2", team:"av", t:"Plantilla de nombre + cifra", d:"Diseño y animación de cómo aparecen el artista y la cifra. Se repite 15 veces.", s:["jumbo"]},
+  {id:"b2-rib", b:"b2", team:"g", t:"Ribbons: 2 frases", d:"", s:RIBBONS,
+   txt:[{h:"Ribbons"},{ul:["4 años haciendo que Bogotá se mueva.","Síguenos en @coliseomedplus."]}]},
   {id:"b2-rib-av", b:"b2", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
   // 03
-  {id:"b3-apertura", b:"b3", team:"g", t:"Estático de apertura: el mezzanine", d:"Presentación general del mezzanine y sus espacios gastronómicos.", s:["jumbo"]},
-  {id:"b3-l21", b:"b3", team:"g", t:"Local: Buden.Co", d:"Salchichas alemanas · Local 21 · Mezzanine. Foto real del producto + logo + categoría + número de local.", s:["jumbo"]},
-  {id:"b3-l14", b:"b3", team:"g", t:"Local: Toro Burger", d:"Hamburguesas · Local 14 · Mezzanine.", s:["jumbo"]},
-  {id:"b3-l22", b:"b3", team:"g", t:"Local: Dogger", d:"Perros calientes · Local 22 · Mezzanine.", s:["jumbo"]},
-  {id:"b3-l15", b:"b3", team:"g", t:"Local: Chicanos 1986", d:"Comida mexicana · Local 15 · Mezzanine.", s:["jumbo"]},
-  {id:"b3-l18", b:"b3", team:"g", t:"Local: Pinchos To You", d:"Carnes · Local 18 · Mezzanine.", s:["jumbo"]},
-  {id:"b3-l20", b:"b3", team:"g", t:"Local: Food & Drinks Live", d:"Comida colombiana · Local 20 · Mezzanine.", s:["jumbo"]},
-  {id:"b3-cierre", b:"b3", team:"g", t:"Estático de cierre", d:"Invitación a conocer la oferta del mezzanine.", s:["jumbo"]},
-  {id:"b3-video", b:"b3", team:"av", mini:true, t:"Unir los estáticos en video", d:"Secuencia del jumbotrone. Máximo 10 s por marca.", s:["jumbo"]},
-  {id:"b3-rib", b:"b3", team:"g", t:"Ribbons: 2 frases", d:"\"Tu próximo antojo te espera\" · \"Conoce nuestro mezzanine\"", s:RIBBONS},
+  {id:"b3-apertura", b:"b3", team:"g", t:"Estático de apertura: el mezzanine", d:"", s:["jumbo"],
+   txt:["1. Presentación general del mezzanine y sus espacios gastronómicos."]},
+  {id:"b3-l21", b:"b3", team:"g", t:"Local: Buden.Co", d:"Foto o video real del producto + logo + categoría + número de local.", s:["jumbo"], txt:[{tbl:["Salchichas alemanas","Buden.Co","Local 21 · Mezzanine"]}]},
+  {id:"b3-l14", b:"b3", team:"g", t:"Local: Toro Burger", d:"Foto o video real del producto + logo + categoría + número de local.", s:["jumbo"], txt:[{tbl:["Hamburguesas","Toro Burger","Local 14 · Mezzanine"]}]},
+  {id:"b3-l22", b:"b3", team:"g", t:"Local: Dogger", d:"Foto o video real del producto + logo + categoría + número de local.", s:["jumbo"], txt:[{tbl:["Perros calientes","Dogger","Local 22 · Mezzanine"]}]},
+  {id:"b3-l15", b:"b3", team:"g", t:"Local: Chicanos 1986", d:"Foto o video real del producto + logo + categoría + número de local.", s:["jumbo"], txt:[{tbl:["Comida mexicana","Chicanos 1986","Local 15 · Mezzanine"]}]},
+  {id:"b3-l18", b:"b3", team:"g", t:"Local: Pinchos To You", d:"Foto o video real del producto + logo + categoría + número de local.", s:["jumbo"], txt:[{tbl:["Carnes","Pinchos To You","Local 18 · Mezzanine"]}]},
+  {id:"b3-l20", b:"b3", team:"g", t:"Local: Food & Drinks Live", d:"Foto o video real del producto + logo + categoría + número de local.", s:["jumbo"], txt:[{tbl:["Comida colombiana","Food & Drinks Live","Local 20 · Mezzanine"]}]},
+  {id:"b3-cierre", b:"b3", team:"g", t:"Estático de cierre", d:"", s:["jumbo"],
+   txt:["4. Cierre invitando a los asistentes a conocer la oferta del mezzanine."]},
+  {id:"b3-video", b:"b3", team:"av", mini:true, t:"Unir los estáticos en video", d:"Máximo 10 s por marca.", s:["jumbo"],
+   txt:[{h:"Secuencia del jumbotrón: SE UNE EN VIDEO LOS ESTÁTICOS"},{ol:["Presentación general del mezzanine y sus espacios gastronómicos.","Presentación individual de cada local mediante fotografías o videos reales de los productos.","Inclusión del logo de cada marca, su categoría gastronómica y número de local.","Cierre invitando a los asistentes a conocer la oferta del mezzanine."]}]},
+  {id:"b3-rib", b:"b3", team:"g", t:"Ribbons: 2 frases", d:"", s:RIBBONS,
+   txt:[{h:"Ribbons"},{ul:["Tu próximo antojo te espera.","Conoce nuestro mezzanine."]}]},
   {id:"b3-rib-av", b:"b3", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
   // 04
-  {id:"b4-a", b:"b4", team:"g", t:"Aviso A: contenido digital", d:"Coliseo Live S.A.S. y TaquillaLive S.A.S. informan la autorización para tomar y publicar fotos, videos y entrevistas (Ley 1581 de 2012). Incluye la nota sobre el promotor del evento.", s:["jumbo"]},
-  {id:"b4-b", b:"b4", team:"g", t:"Aviso B: videovigilancia + contacto", d:"Grabación y monitoreo por seguridad (Ley 1581 de 2012). Al final, el contacto: coliseomedplus.com · taquillalive.com · oficialdatospersonales@coliseolive.com · oficialdatospersonales@taquillalive.com", s:["jumbo"]},
-  {id:"b4-video", b:"b4", team:"av", mini:true, t:"Video de los avisos con tiempo de lectura", d:"Los dos avisos separados, sin animaciones de fondo y con tiempo suficiente para leerlos.", s:["jumbo"]},
-  {id:"b4-rib", b:"b4", team:"g", t:"Ribbon: 1 frase", d:"\"Conoce nuestras políticas de tratamiento de datos en coliseomedplus.com\"", s:RIBBONS},
+  {id:"b4-a", b:"b4", team:"g", t:"Aviso A: contenido digital", d:"Texto completo, sin recortar.", s:["jumbo"], txt:AVISO_A},
+  {id:"b4-b", b:"b4", team:"g", t:"Aviso B: videovigilancia + contacto", d:"Texto completo, sin recortar. El contacto va dentro de este aviso.", s:["jumbo"], txt:AVISO_B},
+  {id:"b4-video", b:"b4", team:"av", mini:true, t:"Video de los avisos con tiempo de lectura", d:"", s:["jumbo"],
+   txt:[{h:"Consideraciones importantes"},{ul:["Mantener separados los dos avisos.","No utilizar animaciones de fondo que dificulten la lectura.","Garantizar un tiempo de exposición adecuado para la lectura del contenido. - VIDEO"]}]},
+  {id:"b4-rib", b:"b4", team:"g", t:"Ribbon: 1 frase", d:"", s:RIBBONS,
+   txt:[{h:"Ribbons"},{ul:["Conoce nuestras políticas de tratamiento de datos en coliseomedplus.com."]}]},
   {id:"b4-rib-av", b:"b4", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
   // 05
-  {id:"b5-pieza", b:"b5", team:"g", t:"Pieza especial HOY: Luis Alfonso", d:"La Fonda del Señorazo.", s:["jumbo"]},
-  {id:"b5-video", b:"b5", team:"av", mini:true, t:"Integrar la pieza y el QR en el video", d:"QR grande, con buen contraste y tiempo suficiente para escanearlo.", s:["jumbo"]},
-  {id:"b5-cierre", b:"b5", team:"av", t:"Cierre visual alineado con el ribbon", d:"\"Muéstrale a Bogotá dónde está la felicidad hoy.\"", s:["jumbo"]},
-  {id:"b5-rib", b:"b5", team:"g", t:"Ribbon: 1 frase", d:"\"Muéstrale a Bogotá dónde está la felicidad hoy.\"", s:RIBBONS},
+  {id:"b5-pieza", b:"b5", team:"g", t:"Pieza especial HOY: Luis Alfonso", d:"", s:["jumbo"],
+   txt:["1. Presentación de la pieza especial de HOY Luis Alfonso - La Fonda Del Señorazo."]},
+  {id:"b5-video", b:"b5", team:"av", mini:true, t:"Integrar la pieza y el QR en el video", d:"El QR lo envía Marketing Coliseo.", s:["jumbo"],
+   txt:["2. Incorporación de un código QR que dirija al álbum digital del evento.","Consideraciones: verificar que el QR se dirija al álbum digital correcto y que tenga suficiente tamaño, contraste y tiempo de exposición para que los asistentes puedan escanearlo. (Marketing COLISEO)"]},
+  {id:"b5-cierre", b:"b5", team:"av", t:"Cierre visual alineado con el ribbon", d:"", s:["jumbo"],
+   txt:["3. Cierre visual alineado con el ribbon: Muéstrale a Bogotá dónde está la felicidad hoy."]},
+  {id:"b5-rib", b:"b5", team:"g", t:"Ribbon: 1 frase", d:"", s:RIBBONS,
+   txt:[{h:"Ribbon"},{ul:["Muéstrale a Bogotá dónde está la felicidad hoy."]}]},
   {id:"b5-rib-av", b:"b5", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
   // 06
-  {id:"b6-montaje", b:"b6", team:"av", t:"Montaje de fans", d:"Reacciones, cantos, abrazos, grupos de amigos, momentos espontáneos, artistas y escenarios. Energía, emoción y comunidad, con la estética de los 4 años.", s:["jumbo"]},
-  {id:"b6-rib", b:"b6", team:"g", t:"Ribbon: 1 frase", d:"\"Mira a tu alrededor. Estás viviendo algo grande.\"", s:RIBBONS},
+  {id:"b6-montaje", b:"b6", team:"av", t:"Montaje de fans", d:"", s:["jumbo"],
+   txt:[{h:"Secuencia del jumbotrón"},"Desarrollar un montaje audiovisual con reacciones, cantos, abrazos, grupos de amigos, momentos espontáneos y planos de los artistas y escenarios.","La pieza debe transmitir energía, emoción y sentido de comunidad, manteniendo la estética de la campaña de los cuatro años."]},
+  {id:"b6-rib", b:"b6", team:"g", t:"Ribbon: 1 frase", d:"", s:RIBBONS,
+   txt:[{h:"Ribbon"},{ul:["Mira a tu alrededor. Estás viviendo algo grande."]}]},
   {id:"b6-rib-av", b:"b6", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
   // 07
-  {id:"b7-eliseo", b:"b7", team:"g", t:"Poses nuevas de Eliseo", d:"Eliseo aparece en pantalla y llama la atención de los asistentes.", s:["jumbo"]},
+  {id:"b7-eliseo", b:"b7", team:"g", t:"Poses nuevas de Eliseo", d:"", s:["jumbo"],
+   txt:["1. Eliseo aparece en pantalla y llama la atención de los asistentes."]},
   {id:"b7-eliseo-av", b:"b7", team:"av", mini:true, t:"Animar a Eliseo", d:"Con las poses nuevas que entrega Gráfico.", s:["jumbo"]},
-  {id:"b7-video", b:"b7", team:"av", t:"Video pre-show", d:"La luz, los gráficos y la animación suben la expectativa → mensaje \"Tu sueño se vive hoy…\" → cuenta regresiva 3, 2, 1 → cierre coordinado con producción para dar paso al show.", s:["jumbo"]},
-  {id:"b7-rib", b:"b7", team:"g", t:"Ribbon: 1 frase", d:"\"Tu sueño se vive hoy… y empieza en 3, 2, 1.\"", s:RIBBONS},
+  {id:"b7-video", b:"b7", team:"av", t:"Video pre-show", d:"Un video adicional.", s:["jumbo"],
+   txt:[{h:"Secuencia del jumbotrón"},{ol:["Eliseo aparece en pantalla y llama la atención de los asistentes.","La iluminación, los recursos gráficos y la animación aumentan progresivamente la expectativa.","Aparece el mensaje: Tu sueño se vive hoy…","Se activa una cuenta regresiva visual: 3, 2, 1.","Cierre coordinado con producción para dar paso al inicio del show."]}]},
+  {id:"b7-rib", b:"b7", team:"g", t:"Ribbon: 1 frase", d:"", s:RIBBONS,
+   txt:[{h:"Ribbons"},{ul:["Tu sueño se vive hoy… y empieza en 3, 2, 1."]}]},
   {id:"b7-rib-av", b:"b7", team:"av", mini:true, t:"Video de los ribbons", d:RIB_ANIM, s:RIBBONS},
   // 08
-  {id:"b8-reco", b:"b8", team:"g", t:"Placas de recomendaciones de venue", d:"Lo que sí (10) y lo que no (14). Textos ya entregados.", s:["fachada"], extra:()=>`<details class="more"><summary>Ver los textos</summary><div class="p-eyebrow" style="margin-top:8px;color:var(--ok)">Lo que sí</div>${list(SI,true)}<div class="p-eyebrow" style="margin-top:10px;color:var(--g)">Lo que no</div>${list(NO,true)}</details>`},
+  {id:"b8-reco", b:"b8", team:"g", t:"Placas de recomendaciones de venue", d:"Textos tal cual la pieza de referencia.", s:["fachada"],
+   txt:["Cabe aclarar que la pantalla exterior debe tener recomendaciones de venue",{h:"LO QUE SÍ"},{ul:SI},{h:"LO QUE NO"},{ul:NO}]},
   {id:"b8-reco-av", b:"b8", team:"av", mini:true, t:"Unir las placas en video", d:"Para la fachada.", s:["fachada"]},
-  {id:"b8-gif", b:"b8", team:"av", t:"Gif de gastronomía", d:"\"Disfruta nuestra oferta gastronómica y bares\". Reemplaza los locales en las pantallas externas. No va en los TVs.", s:["fachada","videowall"]}
+  {id:"b8-gif", b:"b8", team:"av", t:"Gif de gastronomía", d:"Reemplaza los locales en las pantallas externas. No va en los TVs.", s:["fachada","videowall"],
+   txt:["Exceptuando que en la pantallas exterior no va:","-Políticas de privacidad (ninguna).","-No es necesario poner locales de gastronomía, solo con poner un gif disfruta nuestra oferta gastronómica y bares."]}
 ];
+
+function txtHTML(arr, id){
+  const body = arr.map(x=>{
+    if(typeof x==="string") return `<p>${esc(x)}</p>`;
+    if(x.h) return `<p class="th">${esc(x.h)}</p>`;
+    if(x.ol) return `<ol>${x.ol.map(i=>`<li>${esc(i)}</li>`).join("")}</ol>`;
+    if(x.ul) return `<ul>${x.ul.map(i=>`<li>${esc(i)}</li>`).join("")}</ul>`;
+    if(x.tbl) return `<div class="tbl">${x.tbl.map(c=>`<span>${esc(c)}</span>`).join("")}</div>`;
+    return "";
+  }).join("");
+  return `<div class="brief"><div class="brief-h"><span>Texto del brief · tal cual</span><button type="button" class="copy" data-copy="${id}">Copiar</button></div><div class="brief-b" id="txt-${id}">${body}</div></div>`;
+}
 
 const DEPS = {
   b1:"El logo del Coliseo ya existe; no hay que diseñarlo.",
@@ -496,8 +559,8 @@ function taskHTML(t, showScreens){
   return `<div class="task${t.mini?" mini":""}${c.done?" done":""}">
     <input type="checkbox" class="cb" id="cb-${t.id}" data-id="${t.id}" ${c.done?"checked":""} ${canWrite?"":"disabled"} aria-label="Marcar listo: ${esc(t.t)}">
     <div><label for="cb-${t.id}" class="tt">${esc(t.t)}</label>
-      <div class="td">${esc(t.d)}</div>
-      ${t.extra?t.extra():""}
+      ${t.d?`<div class="td">${esc(t.d)}</div>`:""}
+      ${t.txt?txtHTML(t.txt,t.id):""}
       <div class="meta"><span class="pill ${t.team}">${t.team==="g"?"Gráfico":"Audiovisual"}</span>${t.mini?`<span class="pill mini">Mini tarea</span>`:""}
       ${showScreens?`<span class="scr-tag">${t.s.map(s=>SCREENS[s].short||SCREENS[s].name).join(" · ")}</span>`:""}</div>
       ${who}
@@ -524,7 +587,7 @@ function renderScreen(){
   if(!vis.length){ h += `<div class="empty">Este equipo no tiene piezas en esta pantalla.</div>`; return h; }
   for(const B of BLOCKS){
     const bt = vis.filter(t=>t.b===B.id); if(!bt.length) continue;
-    h += `<div><div class="group-h"><span class="n">${B.n}</span><span class="t">${B.name}</span></div><div class="group-h" style="margin:0 0 8px"><span class="c">${esc(B.concept)}</span></div><div class="tasks">${bt.map(t=>taskHTML(t,false)).join("")}</div></div>`;
+    h += `<div><div class="group-h"><span class="n">${B.n}</span><span class="t">${B.name}</span></div><div class="group-h" style="margin:0 0 8px"><span class="c"><span class="concept-l">${B.clabel}</span>${esc(B.concept)}</span></div><div class="tasks">${bt.map(t=>taskHTML(t,false)).join("")}</div></div>`;
   }
   return h;
 }
@@ -535,7 +598,7 @@ function renderBlock(){
   const B = BLOCKS.find(b=>b.id===state.block);
   const vis = T.filter(t=>t.b===B.id && teamOk(t));
   const screens = [...new Set(T.filter(t=>t.b===B.id).flatMap(t=>t.s))];
-  h += `<div><div class="p-eyebrow">Bloque ${B.n} · ${screens.map(s=>SCREENS[s].short||SCREENS[s].name).join(" · ")}</div><h2 class="p-title">${B.name}</h2><p class="concept">"${esc(B.concept).replace(/^Pieza informativa/,"Pieza informativa")}"</p></div>`;
+  h += `<div><div class="p-eyebrow">Bloque ${B.n} · ${screens.map(s=>SCREENS[s].short||SCREENS[s].name).join(" · ")}</div><h2 class="p-title">${B.name}</h2><p class="concept"><span class="concept-l">${B.clabel}</span>${esc(B.concept)}</p></div>`;
   if(DEPS[B.id]) h += `<div class="dep"><b>${DEP_LABEL[B.id]}</b><span>${DEPS[B.id]}</span></div>`;
   const p = pct(vis);
   h += `<div class="progress-line"><span>${vis.filter(t=>isDone(t.id)).length}/${vis.length} listas</span><span class="track"><i style="width:${p}%"></i></span><span>${p}%</span></div>`;
@@ -546,6 +609,11 @@ function renderPanel(){
   const el = document.getElementById("panel");
   el.innerHTML = state.view==="screen" ? renderScreen() : renderBlock();
   el.querySelectorAll(".cb").forEach(cb=>cb.addEventListener("change",()=>toggle(cb.dataset.id, cb.checked)));
+  el.querySelectorAll(".copy").forEach(b=>b.onclick=async()=>{
+    const node=document.getElementById("txt-"+b.dataset.copy); const text=node.innerText;
+    try{ await navigator.clipboard.writeText(text); b.textContent="Copiado"; b.classList.add("ok"); setTimeout(()=>{b.textContent="Copiar";b.classList.remove("ok");},1600); }
+    catch(e){ const r=document.createRange(); r.selectNodeContents(node); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent="Seleccionado: Ctrl/Cmd+C"; }
+  });
   el.querySelectorAll(".blocks-nav button").forEach(b=>b.onclick=()=>{state.block=b.dataset.b;render();});
 }
 function renderMeters(){
